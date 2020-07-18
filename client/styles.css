@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #2c2c31;
+    font-family: 'Montserrat', sans-serif;
+}
+
+main {
+    /* background: green; */
+}
+
+main > h1 {
+    color: #9146ff;
+    font-size: 2.5rem;
+    text-align: center;
+    padding: 2rem 0 1.5rem 0;
+}
+
+form {
+    width: 30%;
+    margin: auto;
+    text-align: center;
+}
+
+label {
+    color: #9146ff;
+    display: block;
+    font-size: 1.5rem;
+}
+
+input {
+    width: 100%;
+    height: 1.75rem;
+    font-size: 1rem;
+    padding: 1rem .75rem;
+    margin: 0 0 1rem 0;
+}
+
+button {
+    color: white;
+    border: none;
+    border-radius: 1rem;
+    outline: none;
+    width: 25%;
+    padding: .5rem;
+    margin: 1rem;
+}
+
+#start {
+    background: #9146ff;
+}
+
+#start:active {
+    background: #5f2fa7;
+}
+
+#stop {
+    background: #ce2014;
+    display: none;
+}
+
+#stop:active {
+    background: #88150d;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+
+.messages {
+    /* background: green; */
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1rem;
+    width: 95%;
+    margin: auto;
+}
+
+.message {
+    margin: 1rem;
+}
+
+span {
+    font-weight: 400;
+}
+
+.messageInfo {
+    color: #9146ff;
+}
+
+.chatmessage {
+    color: white;
+    font-size: 1rem;
+    padding: .4rem 0;
+}
+
+.date {
+    color: white;
+    font-size: .75rem
+}
