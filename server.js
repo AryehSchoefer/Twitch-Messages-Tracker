@@ -8,15 +8,19 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-app.get('/getMessages', async (req, res) => {
+app.post('/messages', async (req, res) => {
     console.log('GET REQUEST RECIEVED 👾')
 
-    await ChatMessage.find((err, msg) => {
+    const { channelname } = req.body
+    const { username } = req.body
+
+    await ChatMessage.find({ username: username, channelname: channelname }, (err, msg) => {
         if (err) return console.error(err)
         res.json(msg)
     })
 
     console.log('GET REQUEST PROCESSED ✅')
+    console.log(`CHANNELNAME: ${channelname}, USERNAME: ${username} \n`)
 })
 
 app.post('/insertMsg', (req, res) => {
@@ -26,7 +30,7 @@ app.post('/insertMsg', (req, res) => {
     const { username } = req.body
     startListening(channelname, username)
 
-    console.log('POST REQUEST PROCESSED')
+    console.log('POST REQUEST PROCESSED \n')
     res.json('POST REQUEST PROCESSED 📨')
 })
 
