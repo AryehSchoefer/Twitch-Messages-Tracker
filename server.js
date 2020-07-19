@@ -14,7 +14,7 @@ app.post('/messages', async (req, res) => {
     const { channelname } = req.body
     const { username } = req.body
 
-    await ChatMessage.find({ username: username, channelname: channelname }, (err, msg) => {
+    await ChatMessage.find({ username: username.toLowerCase(), channelname: channelname.toLowerCase() }, (err, msg) => {
         if (err) return console.error(err)
         res.json(msg)
     })
@@ -66,7 +66,7 @@ function startListening(channelname, username) {
         channels: [`${channelname.toLowerCase()}`]
     })
 
-    client.connect();
+    client.connect()
     client.on('message', async (channel, tags, message, self) => {
         if (tags['display-name'].toLowerCase() === username.toLowerCase()) {
             message = {
@@ -80,10 +80,9 @@ function startListening(channelname, username) {
 }
 
 async function insertMessageInDB(message) {
-
     chatMessage = new ChatMessage({
-        username: message.username,
-        channelname: message.channelname,
+        username: message.username.toLowerCase(),
+        channelname: message.channelname.toLowerCase(),
         message: message.message
     })
 

@@ -8,13 +8,13 @@ const URL = 'http://localhost:'
 const PORT = 3000
 const apiBase = `${URL}${PORT}`
 const userMemory = []
-// const proxy = 'https://cors-anywhere.herokuapp.com/' // for localhost use
 
 let currentlyTracking = false
 form.addEventListener('submit', async (event) => {
     event.preventDefault()
     userMemory.length = 0
-    if (!currentlyTracking) {
+
+    if (!currentlyTracking) { // start tracking button
         startButton.style.display = 'none'
         stopButton.style.display = 'inline-block'
 
@@ -29,7 +29,7 @@ form.addEventListener('submit', async (event) => {
         await sendUserinput(userInput)
         getMessages()
 
-    } else {
+    } else { // stop tracking button
         startButton.style.display = 'inline-block'
         stopButton.style.display = 'none'
         currentlyTracking = false
