@@ -79,6 +79,13 @@ button:hover {
     };
 }
 
+#server-error {
+    color: red;
+    display: none;
+    font-weight: 600;
+    text-align: center;
+}
+
 .messages {
     /* background: green; */
     display: flex;

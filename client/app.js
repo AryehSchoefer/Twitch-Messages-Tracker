@@ -4,6 +4,7 @@ const usernameInput = document.querySelector('.username')
 const startButton = document.getElementById('start')
 const stopButton = document.getElementById('stop')
 const messagesSection = document.querySelector('.messages')
+const serverError = document.getElementById('server-error')
 const URL = 'http://localhost:'
 const PORT = 3000
 const apiBase = `${URL}${PORT}`
@@ -13,6 +14,7 @@ let currentlyTracking = false
 form.addEventListener('submit', async (event) => {
     event.preventDefault()
     userMemory.length = 0
+    serverError.style.display = 'none'
 
     if (!currentlyTracking) { // start tracking button
         startButton.style.display = 'none'
@@ -40,18 +42,24 @@ async function sendUserinput(userInput) {
     const { channelname } = userInput
     const { username } = userInput
 
-    const response = await fetch(`${apiBase}/insertMsg`, {
-        method: 'Post',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-            channelname: channelname,
-            username: username
+    try {
+        const response = await fetch(`${apiBase}/insertMsg`, {
+            method: 'Post',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                channelname: channelname,
+                username: username
+            })
         })
-    })
-    const chatMessages = await response.json()
+        const chatMessages = await response.json()
+    } catch (err) {
+        serverError.style.display = 'block'
+        startButton.style.display = 'inline-block'
+        stopButton.style.display = 'none'
+    }
     return chatMessages
 }
 
