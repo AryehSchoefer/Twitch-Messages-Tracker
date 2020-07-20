@@ -57,26 +57,41 @@ db.once('open', () => {
 
 const tmi = require('tmi.js')
 
+let currentlyTrackingList = []
 function startListening(channelname, username) {
-    const client = new tmi.Client({
-        connection: {
-            secure: true,
-            reconnect: true
-        },
-        channels: [`${channelname.toLowerCase()}`]
-    })
+    const userInput = {
+        channelname: channelname,
+        username: username
+    }
 
-    client.connect()
-    client.on('message', async (channel, tags, message, self) => {
-        if (tags['display-name'].toLowerCase() === username.toLowerCase()) {
-            message = {
-                username: username,
-                channelname: channelname,
-                message: message
+    if (!currentlyTracking(userInput)) {
+        currentlyTrackingList.push({
+            channelname: channelname,
+            username: username
+        })
+
+        const client = new tmi.Client({
+            connection: {
+                secure: true,
+                reconnect: true
+            },
+            channels: [`${channelname.toLowerCase()}`]
+        })
+
+        client.connect()
+        client.on('message', async (channel, tags, message, self) => {
+            if (tags['display-name'].toLowerCase() === username.toLowerCase()) {
+                message = {
+                    username: username,
+                    channelname: channelname,
+                    message: message
+                }
+                insertMessageInDB(message)
             }
-            insertMessageInDB(message)
-        }
-    })
+        })
+    } else {
+        console.log(`ALREADY TRACKING! ${currentlyTrackingList}`)
+    }
 }
 
 async function insertMessageInDB(message) {
@@ -92,3 +107,13 @@ async function insertMessageInDB(message) {
     })
 }
 
+function currentlyTracking(userInput) {
+    for (let i = 0; i < currentlyTrackingList.length; i++) {
+        let { channelname } = currentlyTrackingList[i]
+        let { username } = currentlyTrackingList[i]
+        if (channelname === userInput.channelname && username === userInput.username) {
+            return true
+        }
+    }
+    return false
+}

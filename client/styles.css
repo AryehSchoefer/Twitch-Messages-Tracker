@@ -101,6 +101,7 @@ span {
 }
 
 .chatmessage {
+    overflow-wrap: break-word;
     color: white;
     font-size: 1rem;
     padding: .4rem 0;
