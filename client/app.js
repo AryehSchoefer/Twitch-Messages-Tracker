@@ -30,7 +30,6 @@ form.addEventListener('submit', async (event) => {
         userMemory.push(userInput)
         await sendUserinput(userInput)
         getMessages()
-
     } else { // stop tracking button
         startButton.style.display = 'inline-block'
         stopButton.style.display = 'none'
@@ -55,12 +54,13 @@ async function sendUserinput(userInput) {
             })
         })
         const chatMessages = await response.json()
+        return chatMessages
     } catch (err) {
         serverError.style.display = 'block'
         startButton.style.display = 'inline-block'
         stopButton.style.display = 'none'
+        return err
     }
-    return chatMessages
 }
 
 async function getMessages() {
@@ -106,7 +106,6 @@ async function getMessages() {
         messageBox.appendChild(dateInfo)
 
         messagesSection.appendChild(messageBox)
-
     })
 
     console.log(messages)
